@@ -56,6 +56,15 @@
 
         document.addEventListener('keydown', onKeyDown);
 
+        // Click support (browser testing + touch remotes)
+        navItems.forEach(function (item, idx) {
+            item.addEventListener('click', function () {
+                exitContentZone();
+                setNavFocus(idx);
+                activateNavItem(idx);
+            });
+        });
+
         // Set initial focus on first nav item
         setNavFocus(0);
     }
