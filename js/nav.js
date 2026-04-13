@@ -24,6 +24,12 @@
         GREEN:        404,
         YELLOW:       405,
         BLUE:         406,
+        MEDIA_PREV:   412,
+        MEDIA_STOP:   413,
+        MEDIA_PLAY:   415,
+        MEDIA_NEXT:   417,
+        MEDIA_PAUSE:  19,
+        MEDIA_PLAYPAUSE: 10252,
         NUM_1:        49,   // shortcut keys
         NUM_2:        50,
         NUM_3:        51,
@@ -72,6 +78,11 @@
     /* ── Key handler ─────────────────────────────────────────── */
     function onKeyDown(e) {
         var code = e.keyCode || e.which;
+        var key = e.key || '';
+
+        if (handleMediaKey(code, key, e)) {
+            return;
+        }
 
         // Back / Escape — always return to sidebar from content zone
         if (code === KEY.BACK_STD || code === KEY.BACK_SAMSUNG || code === KEY.BACK_LG) {
@@ -98,7 +109,12 @@
         }
 
         if (inContentZone) {
-            // Only LEFT and BACK are intercepted in content zone;
+            // Playlist sections use the D-pad to move the selected tile.
+            if (handlePlaylistContentKey(code, e)) {
+                return;
+            }
+
+            // Only LEFT and BACK are intercepted in generic content zone;
             // all other keys are passed through to the iframe / YouTube player.
             if (code === KEY.LEFT) {
                 e.preventDefault();
@@ -170,6 +186,13 @@
     function enterContentZone(section) {
         inContentZone = true;
 
+        if (section === 'musiek' || section === 'preke') {
+            if (window.ngvApp && typeof window.ngvApp.activatePlaylistSelection === 'function') {
+                window.ngvApp.activatePlaylistSelection(section);
+            }
+            return;
+        }
+
         // Try to focus the iframe so the player receives d-pad events
         var iframe = document.getElementById('iframe-' + section);
         if (iframe) {
@@ -185,7 +208,66 @@
         setNavFocus(currentIndex);
     }
 
+    function handlePlaylistContentKey(code, e) {
+        var section;
+
+        if (!window.ngvApp || typeof window.ngvApp.getCurrentSection !== 'function') {
+            return false;
+        }
+
+        section = window.ngvApp.getCurrentSection();
+        if (section !== 'musiek' && section !== 'preke') {
+            return false;
+        }
+
+        if (code === KEY.UP) {
+            e.preventDefault();
+            return window.ngvApp.movePlaylistSelection(section, -1);
+        }
+
+        if (code === KEY.DOWN) {
+            e.preventDefault();
+            return window.ngvApp.movePlaylistSelection(section, 1);
+        }
+
+        if (code === KEY.ENTER || code === KEY.RIGHT) {
+            e.preventDefault();
+            return window.ngvApp.activatePlaylistSelection(section);
+        }
+
+        return false;
+    }
+
     /* ── App exit ────────────────────────────────────────────── */
+    function handleMediaKey(code, key, e) {
+        var action = '';
+
+        if (code === KEY.MEDIA_PLAY || key === 'MediaPlay') {
+            action = 'play';
+        } else if (code === KEY.MEDIA_PAUSE || key === 'MediaPause') {
+            action = 'pause';
+        } else if (code === KEY.MEDIA_PLAYPAUSE || key === 'MediaPlayPause') {
+            action = 'playpause';
+        } else if (code === KEY.MEDIA_NEXT || key === 'MediaTrackNext' || key === 'MediaFastForward') {
+            action = 'next';
+        } else if (code === KEY.MEDIA_PREV || key === 'MediaTrackPrevious' || key === 'MediaRewind') {
+            action = 'previous';
+        } else if (code === KEY.MEDIA_STOP || key === 'MediaStop') {
+            action = 'stop';
+        }
+
+        if (!action || !window.ngvApp || typeof window.ngvApp.handleMediaControl !== 'function') {
+            return false;
+        }
+
+        if (window.ngvApp.handleMediaControl(action)) {
+            e.preventDefault();
+            return true;
+        }
+
+        return false;
+    }
+
     function exitApp() {
         // Samsung Tizen
         try {
