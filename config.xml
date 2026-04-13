@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Samsung Tizen Web App manifest
+    Package & submit via: https://seller.samsungapps.com
+    Tizen SDK docs: https://developer.samsung.com/smarttv/develop/
+-->
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:tizen="http://tizen.org/ns/widgets"
+        id="http://ngvishoek.co.za/tv"
+        version="1.0.0"
+        viewmodes="fullscreen">
+
+    <!-- ── Identity ──────────────────────────────────────── -->
+    <name>NG Kerk Vishoek</name>
+    <description>
+        Kyk na ons regstreekse Sondagdienste, luister na ons musiek,
+        blaai deur vorige preke en maak 'n dankoffer — reg op jou TV.
+    </description>
+
+    <!-- ── Icons (add 117×117 and 512×512 PNG files to /images/) -->
+    <icon src="images/icon-117.png"/>
+
+    <!-- ── Entry point ───────────────────────────────────── -->
+    <content src="index.html"/>
+
+    <!-- ── Tizen app identity ────────────────────────────── -->
+    <!-- package must be exactly 10 alphanumeric chars (get from Seller Office) -->
+    <tizen:application id="NGVishoek.TV"
+                       package="NGVishoek"
+                       required_version="3.0"/>
+
+    <!-- ── Required network privilege ───────────────────── -->
+    <tizen:privilege name="http://tizen.org/privilege/internet"/>
+    <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
+
+    <!-- ── Remote-control key registration ──────────────── -->
+    <!-- Registers colour buttons so our JS receives them   -->
+    <tizen:metadata key="http://samsung.com/tv/metadata/prelaunch.support"
+                    value="true"/>
+
+    <!-- ── Features ──────────────────────────────────────── -->
+    <feature name="http://tizen.org/feature/tv"/>
+
+    <!-- ── Settings ──────────────────────────────────────── -->
+    <tizen:setting background-support="disable"
+                   encryption="disable"
+                   install-location="auto"
+                   hwkey-event="enable"/>
+
+    <!-- ── Content security policy ───────────────────────── -->
+    <tizen:content-security-policy>
+        default-src 'self';
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src https://fonts.gstatic.com;
+        img-src 'self' data: https://api.qrserver.com https://i.ytimg.com;
+        frame-src https://www.youtube.com;
+        connect-src 'self' https:;
+    </tizen:content-security-policy>
+
+</widget>

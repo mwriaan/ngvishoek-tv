@@ -1,0 +1,14 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Tizen build output
+*.wgt
+.tizen-*.json
+
+# LG webOS build output
+*.ipk
+
+# Editor
+.vscode/
+*.swp

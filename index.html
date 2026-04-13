@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="af">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, initial-scale=1">
+    <title>NG Kerk Vishoek</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tv.css">
+</head>
+<body>
+
+<div id="app">
+
+    <!-- ══════════════════════════════════════════════════════
+         SIDEBAR — persistent left navigation rail
+    ══════════════════════════════════════════════════════ -->
+    <nav id="sidebar" aria-label="Hoofkieslys">
+
+        <div class="sidebar-brand">
+            <svg class="brand-cross" viewBox="0 0 40 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="15" y="0"  width="10" height="56" rx="3" fill="currentColor"/>
+                <rect x="0"  y="14" width="40" height="10" rx="3" fill="currentColor"/>
+            </svg>
+            <div class="brand-text">
+                <span class="brand-name">NG Kerk Vishoek</span>
+                <span class="brand-year">Gestig 1855</span>
+            </div>
+        </div>
+
+        <ul class="nav-list" id="nav-list" role="menubar">
+
+            <li class="nav-item" data-section="uitsending" tabindex="0" role="menuitem" aria-selected="true">
+                <span class="nav-icon" aria-hidden="true">
+                    <!-- Play / broadcast icon -->
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                </span>
+                <span class="nav-label">Regstreekse<br>Uitsending</span>
+                <span id="live-pill" class="live-pill" hidden aria-live="polite">
+                    <span class="live-dot" aria-hidden="true"></span>REGSTREEKS
+                </span>
+            </li>
+
+            <li class="nav-item" data-section="musiek" tabindex="0" role="menuitem" aria-selected="false">
+                <span class="nav-icon" aria-hidden="true">
+                    <!-- Music note icon -->
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>
+                </span>
+                <span class="nav-label">Ons Musiek</span>
+            </li>
+
+            <li class="nav-item" data-section="preke" tabindex="0" role="menuitem" aria-selected="false">
+                <span class="nav-icon" aria-hidden="true">
+                    <!-- Archive / sermon icon -->
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+                </span>
+                <span class="nav-label">Vorige Preke</span>
+            </li>
+
+            <li class="nav-item" data-section="kontak" tabindex="0" role="menuitem" aria-selected="false">
+                <span class="nav-icon" aria-hidden="true">
+                    <!-- Phone icon -->
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                </span>
+                <span class="nav-label">Kontak Ons</span>
+            </li>
+
+            <li class="nav-item" data-section="dankoffer" tabindex="0" role="menuitem" aria-selected="false">
+                <span class="nav-icon" aria-hidden="true">
+                    <!-- Heart / offering icon -->
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </span>
+                <span class="nav-label">Dankoffer</span>
+            </li>
+
+        </ul>
+
+        <div class="sidebar-clock">
+            <div id="clock" aria-live="off">00:00:00</div>
+            <div id="clock-date">Sondag</div>
+        </div>
+
+    </nav>
+
+    <!-- ══════════════════════════════════════════════════════
+         MAIN CONTENT
+    ══════════════════════════════════════════════════════ -->
+    <main id="content">
+
+        <!-- ── REGSTREEKSE UITSENDING ────────────────────── -->
+        <section id="section-uitsending" class="section" aria-label="Regstreekse Uitsending">
+            <div class="video-section">
+                <div class="video-header">
+                    <div class="video-title-row">
+                        <h1>Regstreekse Uitsending</h1>
+                        <div id="stream-status" class="stream-status offline" aria-live="polite">
+                            <span class="status-dot" aria-hidden="true"></span>
+                            <span id="stream-status-text">Elke Sondag om 09:00</span>
+                        </div>
+                    </div>
+                    <p class="section-sub">NG Kerk Vishoek — kyk saam waar jy ook al is.</p>
+                </div>
+                <div class="video-wrap" id="video-wrap-uitsending">
+                    <iframe id="iframe-uitsending"
+                        data-src="https://www.youtube.com/embed/live_stream?channel=UCrRXpQUVbhX3N4393oSylFA&autoplay=1&rel=0&modestbranding=1&controls=1&iv_load_policy=3"
+                        frameborder="0"
+                        allow="autoplay; encrypted-media; fullscreen"
+                        allowfullscreen
+                        title="NG Kerk Vishoek Regstreekse Uitsending">
+                    </iframe>
+                </div>
+                <p class="video-hint">
+                    <kbd>↵</kbd> Druk Tuis op die speler vir volskerm &nbsp;·&nbsp;
+                    <kbd>←</kbd> Terug na kieslys
+                </p>
+            </div>
+        </section>
+
+        <!-- ── ONS MUSIEK ────────────────────────────────── -->
+        <section id="section-musiek" class="section" hidden aria-label="Ons Musiek">
+            <div class="video-section">
+                <div class="video-header">
+                    <div class="video-title-row">
+                        <h1>Ons Musiek</h1>
+                    </div>
+                    <p class="section-sub">Luister saam — laat die musiek jou hart warm maak.</p>
+                </div>
+                <div class="video-wrap" id="video-wrap-musiek">
+                    <iframe id="iframe-musiek"
+                        data-src="https://www.youtube.com/embed/videoseries?list=PLwcD6UKAo4VLCeJ8JBRHZbJbOadgAatiA&autoplay=0&rel=0&modestbranding=1&controls=1"
+                        frameborder="0"
+                        allow="autoplay; encrypted-media; fullscreen"
+                        allowfullscreen
+                        title="NG Kerk Vishoek Musiek Snitlys">
+                    </iframe>
+                </div>
+                <p class="video-hint">
+                    <kbd>↑ ↓</kbd> Kies 'n liedjie uit die lysie regs &nbsp;·&nbsp;
+                    <kbd>←</kbd> Terug na kieslys
+                </p>
+            </div>
+        </section>
+
+        <!-- ── VORIGE PREKE ──────────────────────────────── -->
+        <section id="section-preke" class="section" hidden aria-label="Vorige Preke">
+            <div class="video-section">
+                <div class="video-header">
+                    <div class="video-title-row">
+                        <h1>Vorige Preke</h1>
+                    </div>
+                    <p class="section-sub">Luister terug na ons Sondagpreke — enige tyd, enige plek.</p>
+                </div>
+                <div class="video-wrap" id="video-wrap-preke">
+                    <iframe id="iframe-preke"
+                        data-src="https://www.youtube.com/embed/videoseries?list=PL3ZCv-_chxKcez82Pxe3YEgqM2vlalQYK&autoplay=0&rel=0&modestbranding=1&controls=1"
+                        frameborder="0"
+                        allow="autoplay; encrypted-media; fullscreen"
+                        allowfullscreen
+                        title="NG Kerk Vishoek Vorige Preke">
+                    </iframe>
+                </div>
+                <p class="video-hint">
+                    <kbd>↑ ↓</kbd> Blaai deur preke &nbsp;·&nbsp;
+                    <kbd>←</kbd> Terug na kieslys
+                </p>
+            </div>
+        </section>
+
+        <!-- ── KONTAK ONS ────────────────────────────────── -->
+        <section id="section-kontak" class="section" hidden aria-label="Kontak Ons">
+            <div class="info-section">
+                <div class="info-section-header">
+                    <h1>Kontak Ons</h1>
+                    <p>'n Lewendige gemeente waar elkeen tuis is. Gestig in 1855.</p>
+                </div>
+
+                <div class="contact-layout">
+                    <div class="contact-cards">
+
+                        <div class="contact-card">
+                            <div class="contact-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+                            </div>
+                            <div class="contact-body">
+                                <h3>Adres</h3>
+                                <p>1 Kommetjie Weg<br>Vishoek, 7975<br>Suid-Afrika</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                            </div>
+                            <div class="contact-body">
+                                <h3>Telefoon</h3>
+                                <p>087 822 1527</p>
+                                <p class="sub">Ma – Vr: 08:00 – 13:00</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            </div>
+                            <div class="contact-body">
+                                <h3>E-pos</h3>
+                                <p>kerkkantoor@<br>ngvishoek.co.za</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+                            </div>
+                            <div class="contact-body">
+                                <h3>Sondagdienste</h3>
+                                <p>09:00</p>
+                                <p class="sub">Regstreeks op YouTube</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Website QR panel -->
+                    <div class="website-panel">
+                        <div class="website-qr-wrap">
+                            <img
+                                src="https://api.qrserver.com/v1/create-qr-code/?size=280x280&color=F7F1EA&bgcolor=1A0E08&data=https%3A%2F%2Fwww.ngvishoek.co.za&margin=12&qzone=2"
+                                alt="QR-kode vir www.ngvishoek.co.za"
+                                class="website-qr"
+                                width="280" height="280"
+                                onerror="this.closest('.website-qr-wrap').classList.add('qr-fallback')">
+                        </div>
+                        <div class="website-label">
+                            <span class="website-scan-hint">Skandeer om ons webwerf te besoek</span>
+                            <span class="website-url">www.ngvishoek.co.za</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ── DANKOFFER ─────────────────────────────────── -->
+        <section id="section-dankoffer" class="section" hidden aria-label="Dankoffer">
+            <div class="info-section offering-section">
+                <div class="info-section-header">
+                    <h1>Dankoffer</h1>
+                    <p>Gee met 'n dankbare hart — jou bydrae bou die koninkryk van God.</p>
+                </div>
+
+                <div class="offering-layout">
+
+                    <!-- QR code column -->
+                    <div class="offering-qr-col">
+                        <div class="offering-qr-frame" id="offering-qr-frame">
+                            <!-- Replace images/snapscan-qr.png with your actual SnapScan QR code -->
+                            <img
+                                src="images/snapscan-qr.png"
+                                alt="SnapScan QR-kode vir NG Kerk Vishoek"
+                                class="offering-qr-img"
+                                id="offering-qr-img"
+                                onerror="document.getElementById('offering-qr-frame').classList.add('qr-missing')">
+                            <div class="qr-placeholder-inner" aria-hidden="true">
+                                <!-- Shown when snapscan-qr.png is missing -->
+                                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="qr-placeholder-svg">
+                                    <rect x="5"  y="5"  width="38" height="38" rx="3" stroke="currentColor" stroke-width="4" fill="none"/>
+                                    <rect x="15" y="15" width="18" height="18" rx="1" fill="currentColor"/>
+                                    <rect x="57" y="5"  width="38" height="38" rx="3" stroke="currentColor" stroke-width="4" fill="none"/>
+                                    <rect x="67" y="15" width="18" height="18" rx="1" fill="currentColor"/>
+                                    <rect x="5"  y="57" width="38" height="38" rx="3" stroke="currentColor" stroke-width="4" fill="none"/>
+                                    <rect x="15" y="67" width="18" height="18" rx="1" fill="currentColor"/>
+                                    <rect x="57" y="57" width="10" height="10" rx="1" fill="currentColor"/>
+                                    <rect x="73" y="57" width="10" height="10" rx="1" fill="currentColor"/>
+                                    <rect x="57" y="73" width="10" height="10" rx="1" fill="currentColor"/>
+                                    <rect x="73" y="73" width="22" height="22" rx="2" fill="currentColor"/>
+                                </svg>
+                                <p class="qr-placeholder-label">Voeg <code>images/snapscan-qr.png</code> by</p>
+                            </div>
+                        </div>
+                        <div class="offering-snapscan-badge">
+                            <img src="images/snapscan-logo.jpg" alt="SnapScan" class="snapscan-logo-img"
+                                onerror="this.style.display='none'">
+                            <span>Skandeer met SnapScan</span>
+                        </div>
+                    </div>
+
+                    <!-- Instructions column -->
+                    <div class="offering-info-col">
+                        <h2>Hoe om te Gee</h2>
+
+                        <ol class="offering-steps">
+                            <li class="offering-step">
+                                <span class="step-num" aria-hidden="true">1</span>
+                                <div class="step-body">
+                                    <strong>Maak SnapScan oop</strong>
+                                    <p>Laai die SnapScan-app op jou foon af of maak dit oop.</p>
+                                </div>
+                            </li>
+                            <li class="offering-step">
+                                <span class="step-num" aria-hidden="true">2</span>
+                                <div class="step-body">
+                                    <strong>Skandeer die QR-kode</strong>
+                                    <p>Rig jou foon na die QR-kode op die TV-skerm.</p>
+                                </div>
+                            </li>
+                            <li class="offering-step">
+                                <span class="step-num" aria-hidden="true">3</span>
+                                <div class="step-body">
+                                    <strong>Bevestig jou bydrae</strong>
+                                    <p>Voer die bedrag in en druk "Betaal" — klaar!</p>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="offering-divider" aria-hidden="true"></div>
+
+                        <div class="offering-alt">
+                            <h3>Alternatief — Direkte Oorbetaling</h3>
+                            <p>Kontak die kerkkantoor vir bankinligting:</p>
+                            <p class="offering-contact">
+                                <strong>087 822 1527</strong><br>
+                                kerkkantoor@ngvishoek.co.za
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</div><!-- #app -->
+
+<script src="js/nav.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

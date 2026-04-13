@@ -1,0 +1,748 @@
+/* ══════════════════════════════════════════════════════════════
+   NG KERK VISHOEK — Smart TV App Styles
+   Target: Samsung Tizen 3+, LG webOS 3+, 1920 × 1080 @ 1x
+   Design: Dark TV theme · Brand gold #C47D1A · Brand brown #6B3410
+══════════════════════════════════════════════════════════════ */
+
+/* ── Reset & Box Model ─────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ── Design Tokens ─────────────────────────────────────────── */
+:root {
+    /* Palette */
+    --bg:           #0D0804;   /* near-black warm brown */
+    --surface:      #1A0E06;   /* dark warm brown — sidebar */
+    --card:         #251508;   /* card background */
+    --card-active:  #3A2010;   /* focused / active card */
+    --border:       rgba(196, 125, 26, 0.18);
+    --border-focus: rgba(196, 125, 26, 0.72);
+
+    --gold:         #C47D1A;   /* primary brand accent */
+    --gold-light:   #E8A83C;   /* focused / hover state */
+    --gold-dim:     #8A5A14;   /* muted gold */
+    --gold-glow:    rgba(196, 125, 26, 0.22);
+
+    --white:        #F7F1EA;   /* warm off-white */
+    --grey:         #C4B8AC;   /* secondary text */
+    --grey-dim:     #7A6E62;   /* hint text */
+    --red-live:     #E53935;   /* LIVE indicator */
+    --red-live-bg:  rgba(229, 57, 53, 0.18);
+
+    /* Layout */
+    --sidebar-w:    240px;
+    --safe-h:       48px;      /* vertical overscan safe padding */
+    --safe-v:       36px;      /* horizontal overscan safe padding */
+
+    /* Typography */
+    --font-body: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-head: 'Playfair Display', Georgia, 'Times New Roman', serif;
+
+    /* Motion */
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --dur-fast: 160ms;
+    --dur-mid:  240ms;
+}
+
+/* ── Base ──────────────────────────────────────────────────── */
+html, body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 20px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    cursor: none; /* TV has no pointer */
+}
+
+/* Global focus — thick gold ring, no default outline */
+:focus {
+    outline: none;
+}
+:focus-visible {
+    outline: 4px solid var(--gold-light);
+    outline-offset: 3px;
+}
+
+/* ── App Shell ─────────────────────────────────────────────── */
+#app {
+    display: flex;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════════════════════════════ */
+#sidebar {
+    display: flex;
+    flex-direction: column;
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    height: 1080px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: var(--safe-h) 0;
+    position: relative;
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+/* Brand block */
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 24px 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+}
+
+.brand-cross {
+    width: 28px;
+    height: 40px;
+    color: var(--gold);
+    flex-shrink: 0;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-name {
+    font-family: var(--font-head);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+}
+
+.brand-year {
+    font-size: 12px;
+    color: var(--gold-dim);
+    letter-spacing: 0.08em;
+    margin-top: 3px;
+}
+
+/* Nav list */
+.nav-list {
+    list-style: none;
+    flex: 1;
+    overflow: hidden;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 24px;
+    cursor: default;
+    position: relative;
+    transition:
+        background var(--dur-fast) var(--ease),
+        color var(--dur-fast) var(--ease);
+    color: var(--grey);
+    border-left: 3px solid transparent;
+}
+
+.nav-item:focus,
+.nav-item.focused {
+    background: var(--card-active);
+    color: var(--gold-light);
+    border-left-color: var(--gold-light);
+    outline: none;
+}
+
+.nav-item.active {
+    background: var(--card);
+    color: var(--gold);
+    border-left-color: var(--gold);
+}
+
+.nav-item.active.focused,
+.nav-item.active:focus {
+    background: var(--card-active);
+    color: var(--gold-light);
+    border-left-color: var(--gold-light);
+}
+
+.nav-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.nav-label {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+    flex: 1;
+}
+
+/* REGSTREEKS pill */
+.live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 100px;
+    background: var(--red-live-bg);
+    border: 1px solid rgba(229, 57, 53, 0.45);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #FF6B68;
+    flex-shrink: 0;
+    animation: live-pulse 2.5s ease-in-out infinite;
+}
+
+.live-pill[hidden] {
+    display: none;
+}
+
+.live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--red-live);
+    animation: dot-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.35; }
+}
+
+@keyframes live-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0); }
+    50%       { box-shadow: 0 0 0 4px rgba(229, 57, 53, 0.18); }
+}
+
+/* Clock block */
+.sidebar-clock {
+    padding: 20px 24px 0;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+}
+
+#clock {
+    font-family: var(--font-body);
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--white);
+    font-variant-numeric: tabular-nums;
+}
+
+#clock-date {
+    font-size: 13px;
+    color: var(--grey-dim);
+    margin-top: 2px;
+    letter-spacing: 0.03em;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CONTENT AREA
+══════════════════════════════════════════════════════════════ */
+#content {
+    flex: 1;
+    height: 1080px;
+    overflow: hidden;
+    position: relative;
+    background: var(--bg);
+}
+
+/* Section base */
+.section {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-mid) var(--ease);
+}
+
+.section:not([hidden]) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ── Video sections (Uitsending / Musiek / Preke) ──────────── */
+.video-section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--safe-h) var(--safe-v);
+    gap: 16px;
+}
+
+.video-header {
+    flex-shrink: 0;
+}
+
+.video-title-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 6px;
+}
+
+.video-title-row h1 {
+    font-family: var(--font-head);
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.1;
+}
+
+.section-sub {
+    font-size: 20px;
+    color: var(--grey);
+}
+
+/* Stream status badge */
+.stream-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+    transition: background var(--dur-mid), color var(--dur-mid), border-color var(--dur-mid);
+}
+
+.stream-status.live {
+    background: var(--red-live-bg);
+    border: 1px solid rgba(229, 57, 53, 0.45);
+    color: #FF6B68;
+}
+
+.stream-status.offline {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--grey);
+}
+
+.stream-status .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.stream-status.live .status-dot {
+    background: var(--red-live);
+    animation: dot-pulse 1.4s ease-in-out infinite;
+}
+
+.stream-status.offline .status-dot {
+    background: var(--grey-dim);
+}
+
+/* Video iframe wrapper — strict 16:9 */
+.video-wrap {
+    flex: 1;
+    position: relative;
+    background: #000;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 0 0 1px rgba(196, 125, 26, 0.10);
+}
+
+.video-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Hint bar */
+.video-hint {
+    flex-shrink: 0;
+    font-size: 16px;
+    color: var(--grey-dim);
+    text-align: center;
+}
+
+.video-hint kbd {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold);
+    background: rgba(196, 125, 26, 0.12);
+    border: 1px solid rgba(196, 125, 26, 0.35);
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin: 0 2px;
+}
+
+/* ── Info sections (Kontak / Dankoffer) ────────────────────── */
+.info-section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--safe-h) var(--safe-v);
+    gap: 36px;
+    overflow: hidden;
+}
+
+.info-section-header h1 {
+    font-family: var(--font-head);
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.info-section-header p {
+    font-size: 22px;
+    color: var(--grey);
+}
+
+/* ── KONTAK layout ─────────────────────────────────────────── */
+.contact-layout {
+    display: flex;
+    gap: 48px;
+    flex: 1;
+    overflow: hidden;
+    align-items: flex-start;
+}
+
+.contact-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    flex: 1;
+}
+
+.contact-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px 26px;
+    transition: border-color var(--dur-fast), background var(--dur-fast);
+}
+
+.contact-icon {
+    width: 44px;
+    height: 44px;
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.contact-icon svg {
+    width: 44px;
+    height: 44px;
+}
+
+.contact-body h3 {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+}
+
+.contact-body p {
+    font-size: 22px;
+    color: var(--white);
+    line-height: 1.45;
+}
+
+.contact-body .sub {
+    font-size: 17px;
+    color: var(--grey);
+    margin-top: 4px;
+}
+
+/* Website QR panel */
+.website-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+    padding: 28px 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    width: 320px;
+}
+
+.website-qr-wrap {
+    background: #1A0E08;
+    border-radius: 8px;
+    padding: 12px;
+    border: 2px solid var(--border-focus);
+}
+
+.website-qr-wrap.qr-fallback::after {
+    display: block;
+    content: 'QR nie beskikbaar\A(benodig internet)';
+    white-space: pre;
+    text-align: center;
+    font-size: 15px;
+    color: var(--grey-dim);
+    padding: 20px;
+}
+
+.website-qr {
+    display: block;
+    width: 280px;
+    height: 280px;
+    border-radius: 4px;
+}
+
+.website-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+}
+
+.website-scan-hint {
+    font-size: 16px;
+    color: var(--grey);
+}
+
+.website-url {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.02em;
+}
+
+/* ── DANKOFFER layout ──────────────────────────────────────── */
+.offering-section {
+    gap: 28px;
+}
+
+.offering-layout {
+    display: flex;
+    gap: 60px;
+    flex: 1;
+    overflow: hidden;
+    align-items: flex-start;
+}
+
+/* QR column */
+.offering-qr-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+.offering-qr-frame {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    background: var(--card);
+    border: 3px solid var(--gold);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow:
+        0 0 0 1px rgba(196, 125, 26, 0.12),
+        0 0 60px rgba(196, 125, 26, 0.08);
+}
+
+.offering-qr-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    padding: 20px;
+}
+
+/* Show placeholder when image is missing */
+.offering-qr-frame .qr-placeholder-inner {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 24px;
+    text-align: center;
+}
+
+.offering-qr-frame.qr-missing .offering-qr-img {
+    display: none;
+}
+
+.offering-qr-frame.qr-missing .qr-placeholder-inner {
+    display: flex;
+}
+
+.qr-placeholder-svg {
+    width: 140px;
+    height: 140px;
+    color: var(--gold-dim);
+    opacity: 0.6;
+}
+
+.qr-placeholder-label {
+    font-size: 15px;
+    color: var(--grey-dim);
+    line-height: 1.4;
+}
+
+.qr-placeholder-label code {
+    display: block;
+    font-size: 13px;
+    color: var(--gold-dim);
+    background: rgba(196, 125, 26, 0.1);
+    padding: 4px 8px;
+    border-radius: 3px;
+    margin-top: 4px;
+    word-break: break-all;
+}
+
+/* SnapScan badge below QR */
+.offering-snapscan-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--grey);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.snapscan-logo-img {
+    height: 36px;
+    width: auto;
+    border-radius: 4px;
+    object-fit: contain;
+}
+
+/* Info column */
+.offering-info-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    overflow: hidden;
+}
+
+.offering-info-col h2 {
+    font-family: var(--font-head);
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--gold-light);
+}
+
+/* Steps list */
+.offering-steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.offering-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.step-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: #0D0804;
+    font-size: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.step-body strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+}
+
+.step-body p {
+    font-size: 19px;
+    color: var(--grey);
+    line-height: 1.4;
+}
+
+.offering-divider {
+    height: 1px;
+    background: var(--border);
+}
+
+.offering-alt h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold-dim);
+    letter-spacing: 0.03em;
+    margin-bottom: 8px;
+}
+
+.offering-alt p {
+    font-size: 19px;
+    color: var(--grey);
+    line-height: 1.5;
+}
+
+.offering-contact {
+    color: var(--white) !important;
+    margin-top: 6px;
+    font-size: 20px !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TRANSITIONS — section fade
+══════════════════════════════════════════════════════════════ */
+.section {
+    transition: opacity var(--dur-mid) var(--ease);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SCROLLBAR — hidden (TV never scrolls)
+══════════════════════════════════════════════════════════════ */
+::-webkit-scrollbar { display: none; }

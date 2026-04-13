@@ -1,0 +1,18 @@
+{
+    "id":          "co.za.ngvishoek.tv",
+    "version":     "1.0.0",
+    "vendor":      "NG Kerk Vishoek",
+    "type":        "web",
+    "main":        "../index.html",
+    "title":       "NG Kerk Vishoek",
+    "icon":        "../images/icon-80.png",
+    "largeIcon":   "../images/icon-130.png",
+    "resolution":  "1920x1080",
+    "uiRevision":  "2",
+    "bgColor":     "#0D0804",
+    "transparent": false,
+    "handlesRelaunch": false,
+    "noSplashOnLaunch": false,
+    "disableBackHistoryAPI": false,
+    "requiredPermissions": ["NETWORK"]
+}
